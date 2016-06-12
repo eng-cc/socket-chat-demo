@@ -4,7 +4,7 @@
     }
 
     var runSocket = function() {
-        window.socket = io.connect('localhost:8088')
+        window.socket = io.connect('/')
 
     }
     var ioMsg = function() {

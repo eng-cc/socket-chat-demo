@@ -1,6 +1,6 @@
 # high-concurrent
 
-> node high concurrent demo
+> node socket  demo
 
 ## Build Setup
 
@@ -15,4 +15,3 @@ npm run dev
 npm run build
 ```
 
-For detailed explanation on how things work, consult the [docs for vue-loader](http://vuejs.github.io/vue-loader).

@@ -4,6 +4,7 @@
     }
 
     var runSocket = function() {
+        // window.socket = io.connect('http://115.28.30.14:8080/')
         window.socket = io.connect('/')
 
     }

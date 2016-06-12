@@ -75,31 +75,39 @@ export default {
                 }, 2500)
             },
             submit: function() {
-                if (this.isAddUser) {
-                    if (this.inputMsg.length <= 12) {
-                        let time = new Date()
-                        this.username = this.inputMsg
-                        this.userId = time.getTime()
-                        localStorage.setItem('username', this.username)
-                        localStorage.setItem('userId', this.userId)
-                        console.log(this.username)
-                        socket.emit('username', {
-                            username: this.username,
-                            userId: this.userId
-                        })
-                        this.inputGroup.in = "我也说句一..."
-                        this.inputGroup.btn = "发送"
-                        this.tipsOpr('嗨 ' + this.username + '！昵称发送成功')
-                        this.isAddUser = false
+                if (this.inputMsg && this.inputMsg.length >= 1) {
+                    if (this.isAddUser) {
+                        if (this.inputMsg.length <= 12) {
+                            let time = new Date()
+                            this.username = this.inputMsg
+                            this.userId = time.getTime()
+                            localStorage.setItem('username', this.username)
+                            localStorage.setItem('userId', this.userId)
+                            console.log(this.username)
+                            socket.emit('username', {
+                                username: this.username,
+                                userId: this.userId
+                            })
+                            this.inputGroup.in = "我也说句一..."
+                            this.inputGroup.btn = "发送"
+                            this.tipsOpr('嗨 ' + this.username + '！昵称发送成功')
+                            this.isAddUser = false
+                        } else {
+                            this.tipsOpr('昵称不能超过12个字符')
+                        }
                     } else {
-                        this.tipsOpr('昵称不能超过两个字符')
+                        if (this.inputMsg === '143736quiet') {
+                            socket.emit('admin_quiet', {
+                                msg: this.inputMsg
+                            })
+                        }
+                        socket.emit('new_msg', {
+                            username: this.username,
+                            msg: this.inputMsg
+                        })
                     }
-                } else {
-                    socket.emit('new_msg', {
-                        username: this.username,
-                        msg: this.inputMsg
-                    })
                 }
+
                 this.inputMsg = null
             },
             ifNewUser: function() {
@@ -130,6 +138,9 @@ export default {
                     if (that.msgList.length > 30) {
                         that.msgList.shift()
                     }
+                    that.msgList.push({})
+                    window.scrollTo(0, document.body.scrollHeight + 45)
+                    that.msgList.pop()
                 })
             }
         },
@@ -175,6 +186,7 @@ export default {
     padding: 10px 0 0 10px;
     z-index: 111;
     color: #666;
+    font-size: 14px;
 }
 
 .msgs {

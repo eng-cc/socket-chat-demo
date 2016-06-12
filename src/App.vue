@@ -195,7 +195,7 @@ export default {
     }
 }
 
-// .ui-border-radius:before {
-//     content: none;
-// }
+.ui-border-radius:before {
+    content: none;
+}
 </style>

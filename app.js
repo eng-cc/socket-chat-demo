@@ -28,7 +28,7 @@ io.on('connection', function(socket) {
         }
         console.log(data)
         socket.name = data.username
-        io.emit('newuser', data.username)
+        io.emit('newuser', data)
         console.log('username+++++++++')
     })
     socket.on('new_msg', function(data) {

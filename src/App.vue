@@ -72,13 +72,15 @@ export default {
         },
         methods: {
             tipsOpr: function(msg) {
-                this.tips.ani = 'tipsAni-enter'
-                this.tips.msg = msg
                 let that = this
-                setTimeout(function() {
-                    that.tips.ani = 'tipsAni-leave'
-                    that.tips.msg = null
-                }, 2500)
+                if (this.tips.ani = 'tipsAni-leave') {
+                    this.tips.ani = 'tipsAni-enter'
+                    setTimeout(function() {
+                        that.tips.ani = 'tipsAni-leave'
+                        that.tips.msg = null
+                    }, 2500)
+                }
+                this.tips.msg = msg
             },
             submit: function() {
                 if (this.inputMsg && this.inputMsg.length >= 1) {
@@ -145,11 +147,15 @@ export default {
                     console.log(data)
                     that.allUser = data.allUser
                 })
+                socket.on('newuser', function(data) {
+                    console.log(data)
+                    that.tipsOpr('欢迎' + data.username + '加入')
+                })
                 socket.on('admin_quiet', function(data) {
                     console.log(data)
                     that.canspeak = false
                 })
-                 socket.on('admin_speak', function(data) {
+                socket.on('admin_speak', function(data) {
                     console.log(data)
                     that.canspeak = true
                 })

@@ -36,6 +36,16 @@ io.on('connection', function(socket) {
         io.emit('newmsg', data)
         console.log('newMsg+++++++++')
     })
+    socket.on('admin_quiet', function(data) {
+        console.log(data)
+        io.emit('admin_quiet', data)
+        console.log('admin_quiet+++++++++')
+    })
+    socket.on('admin_speak', function(data) {
+        console.log(data)
+        io.emit('admin_speak', data)
+        console.log('admin_speak+++++++++')
+    })
 })
 
 

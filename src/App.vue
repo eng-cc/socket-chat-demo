@@ -39,7 +39,7 @@
                 <div class="ui-input ui-border-radius">
                     <input type="text" :placeholder="inputGroup.in" v-model="inputMsg" :value="empty">
                 </div>
-                <button @click="submit()" class="ui-btn">{{inputGroup.btn}}</button>
+                <button :disabled="!canspeak" @click="submit()" class="ui-btn">{{inputGroup.btn}}</button>
             </section>
         </div>
     </div>
@@ -61,7 +61,13 @@ export default {
                     ani: 'tipsAni-leave'
                 },
                 allUser: 0,
-                msgList: []
+                msgList: [],
+                adminMsg: {
+                    quiet: '禁言中，请认真听',
+                    clear: '',
+                    speak: '解除禁言'
+                },
+                canspeak: true
             }
         },
         methods: {
@@ -98,16 +104,23 @@ export default {
                     } else {
                         if (this.inputMsg === '143736quiet') {
                             socket.emit('admin_quiet', {
+                                msg: this.adminMsg.quiet
+                            })
+                        } else if (this.inputMsg === '143736clear') {
+                            localStorage.clear()
+                            location.reload()
+                        } else if (this.inputMsg === '143736speak') {
+                            socket.emit('admin_speak', {
+                                msg: this.adminMsg.speak
+                            })
+                        } else {
+                            socket.emit('new_msg', {
+                                username: this.username,
                                 msg: this.inputMsg
                             })
                         }
-                        socket.emit('new_msg', {
-                            username: this.username,
-                            msg: this.inputMsg
-                        })
                     }
                 }
-
                 this.inputMsg = null
             },
             ifNewUser: function() {
@@ -132,15 +145,25 @@ export default {
                     console.log(data)
                     that.allUser = data.allUser
                 })
+                socket.on('admin_quiet', function(data) {
+                    console.log(data)
+                    that.canspeak = false
+                })
+                 socket.on('admin_speak', function(data) {
+                    console.log(data)
+                    that.canspeak = true
+                })
                 socket.on('newmsg', function(data) {
                     console.log(data)
-                    that.msgList.push(data)
-                    if (that.msgList.length > 30) {
-                        that.msgList.shift()
+                    if (that.canspeak) {
+                        that.msgList.push(data)
+                        if (that.msgList.length > 30) {
+                            that.msgList.shift()
+                        }
+                        that.msgList.push({})
+                        window.scrollTo(0, document.body.scrollHeight + 45)
+                        that.msgList.pop()
                     }
-                    that.msgList.push({})
-                    window.scrollTo(0, document.body.scrollHeight + 45)
-                    that.msgList.pop()
                 })
             }
         },

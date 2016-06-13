@@ -29,7 +29,7 @@ io.on('connection', function(socket) {
         console.log(data)
         socket.name = data.username
         io.emit('newuser', data)
-        console.log('username+++++++++')
+        console.log('newuser+++++++++')
     })
     socket.on('new_msg', function(data) {
         console.log(data)

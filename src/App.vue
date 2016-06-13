@@ -14,7 +14,7 @@
                     <h3>you need a name</h3>
                 </header>
                 <div class="ui-dialog-bd">
-                    <div>plase在下面输入框中输入昵称并提交(昵称不能超过12个字符)</div>
+                    <div>please在下面输入框中输入昵称并提交(昵称不能超过12个字符)</div>
                 </div>
                 <div class="ui-dialog-ft">
                     <button type="button" data-role="button">ok</button>
